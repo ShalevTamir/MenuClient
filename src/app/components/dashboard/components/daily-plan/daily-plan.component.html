@@ -5,7 +5,7 @@
             <app-menu-item-card [menuItemName]="getMenuItem(nutientCategory)"></app-menu-item-card>
         </ng-container>
         <ng-template #emptyCardContainer>
-            <app-empty-card [nutrientCategory]="nutientCategory"></app-empty-card>
+            <app-empty-card [nutrientCategory]="nutientCategory" (onEmptyCardClick)="handleEmptyCardClick($event)"></app-empty-card>
         </ng-template>
     </ng-container>
 </div>

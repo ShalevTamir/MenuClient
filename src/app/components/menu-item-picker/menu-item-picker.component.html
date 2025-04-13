@@ -1,0 +1,8 @@
+<div class="component-wrapper" *ngIf="isVisible">
+    <div class="content-wrapper">
+        <mat-icon class="close-icon" aria-hidden="false" aria-label="Example home icon" fontIcon="close" (click)="handleCloseClick()"></mat-icon>
+        <div class="cards-container">
+            <app-menu-item-card *ngFor="let menuItem of menuItemsToDisplay" [menuItemName]="menuItem.name" (click)="handleMenuItemSelected(menuItem)"></app-menu-item-card>
+        </div>
+    </div>
+</div>
