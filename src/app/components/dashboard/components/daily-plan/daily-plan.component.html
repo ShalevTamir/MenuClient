@@ -1,1 +1,11 @@
-<p>{{readableDayString}}</p>
+<span class="day-string">{{readableDayString}}</span>
+<div class="cards">
+    <ng-container *ngFor="let nutientCategory of nutrientCategories">
+        <ng-container *ngIf="hasMenuItem(nutientCategory); else emptyCardContainer">
+            <app-menu-item-card [menuItemName]="getMenuItem(nutientCategory)"></app-menu-item-card>
+        </ng-container>
+        <ng-template #emptyCardContainer>
+            <app-empty-card [nutrientCategory]="nutientCategory"></app-empty-card>
+        </ng-template>
+    </ng-container>
+</div>

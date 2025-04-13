@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { NutrientCategory } from '../../models/enums/nutrient-category.enum';
 
 @Component({
   selector: 'app-empty-card',
@@ -8,5 +9,5 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './empty-card.component.scss'
 })
 export class EmptyCardComponent {
-
+  @Input({ required: true }) nutrientCategory!: NutrientCategory  
 }

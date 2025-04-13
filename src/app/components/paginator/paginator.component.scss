@@ -1,6 +1,7 @@
 :host {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0 auto;
     width: 88vw;
     padding-top: 2vh;
@@ -9,6 +10,10 @@
     .date {
         display: flex;
         align-items: center;
+
+        span {
+            font-size: 1.5rem;
+        }
 
         .start-date {
             margin-right: 1vw;
