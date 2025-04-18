@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { DailyPlanComponent } from "./components/daily-plan/daily-plan.component";
-import { WeekPlanManagerService } from './services/week-plan-manager.service';
 import { NgForOf, NgIf } from '@angular/common';
 import { MenuItemPickerComponent } from "../menu-item-picker/menu-item-picker.component";
-import { MenuItem } from '../../common/components/menu-item-card/models/menu-item.interface';
 import { MenuItemsManagerService } from '../../common/services/menu-items-manager.service';
-import { NutrientCategory } from './components/daily-plan/models/enums/nutrient-category.enum';
-import { DateRange } from '../../common/components/menu-item-card/models/date-range.interface';
+import { NutrientCategory } from '../../common/models/enums/nutrient-category.enum';
+import { DateRange } from '../../common/models/interfaces/date-range.interface';
 import { DatePaginationManagerService } from '../../common/services/date-pagination-manager.service';
+import { DailyPlanComponent } from './daily-plan/daily-plan.component';
+import { WeekPlanManagerService } from '../../common/services/week-plan-manager.service';
+import { MenuItem } from '../../common/models/interfaces/menu-item.interface';
 
 @Component({
   selector: 'app-dashboard',

@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NutrientCategory } from './models/enums/nutrient-category.enum';
-import { MenuItemCardComponent } from "../../../../common/components/menu-item-card/menu-item-card.component";
 import { NgForOf, NgIf } from '@angular/common';
-import { EmptyCardComponent } from "./components/empty-card/empty-card.component";
+import { NutrientCategory } from '../../../common/models/enums/nutrient-category.enum';
+import { MenuItemCardComponent } from "../../../common/components/menu-item-card/menu-item-card.component";
+import { EmptyCardComponent } from "./empty-card/empty-card.component";
 
 @Component({
   selector: 'app-daily-plan',
-  imports: [MenuItemCardComponent, NgIf, NgForOf, EmptyCardComponent],
   templateUrl: './daily-plan.component.html',
-  styleUrl: './daily-plan.component.scss'
+  styleUrl: './daily-plan.component.scss',
+  imports: [MenuItemCardComponent, EmptyCardComponent, NgForOf, NgIf],
 })
 export class DailyPlanComponent {
   @Input({ required: true }) readableDayString!: string;

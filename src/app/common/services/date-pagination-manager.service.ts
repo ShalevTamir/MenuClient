@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { DateRange } from "../components/menu-item-card/models/date-range.interface";
+import { DateRange } from "../models/interfaces/date-range.interface";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { ParsedDateRange } from "../components/menu-item-card/models/parsed-date-range.interface";
+import { ParsedDateRange } from "../models/interfaces/parsed-date-range.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -29,9 +29,9 @@ export class DatePaginationManagerService {
     }
 
     private parseDate(date: Date): string {
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
-        const year = String(date.getFullYear()).slice(-2); // get last 2 digits
+        const day: string = String(date.getDate()).padStart(2, '0');
+        const month: string = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
+        const year: string = String(date.getFullYear()).slice(-2); // get last 2 digits
       
         return `${day}.${month}.${year}`;
     }

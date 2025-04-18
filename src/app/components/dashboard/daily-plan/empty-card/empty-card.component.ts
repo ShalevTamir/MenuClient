@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NutrientCategory } from '../../models/enums/nutrient-category.enum';
+import { NutrientCategory } from '../../../../common/models/enums/nutrient-category.enum';
 
 @Component({
   selector: 'app-empty-card',

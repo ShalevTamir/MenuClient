@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MenuItemCardComponent } from "../../common/components/menu-item-card/menu-item-card.component";
 import { MatIconModule } from '@angular/material/icon';
-import { MenuItem } from '../../common/components/menu-item-card/models/menu-item.interface';
 import { NgForOf, NgIf } from '@angular/common';
-import { NutrientCategory } from '../dashboard/components/daily-plan/models/enums/nutrient-category.enum';
+import { NutrientCategory } from '../../common/models/enums/nutrient-category.enum';
+import { MenuItem } from '../../common/models/interfaces/menu-item.interface';
 
 @Component({
   selector: 'app-menu-item-picker',

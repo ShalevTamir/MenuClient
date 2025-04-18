@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { DailyMealPlan } from "../../../common/components/menu-item-card/models/daily-meal-plan.interface";
 import { Observable } from "rxjs";
+import { DailyMealPlan } from "../models/interfaces/daily-meal-plan.interface";
 
 @Injectable({
     providedIn: 'root'
