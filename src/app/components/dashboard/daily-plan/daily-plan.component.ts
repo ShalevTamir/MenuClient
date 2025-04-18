@@ -37,7 +37,7 @@ export class DailyPlanComponent {
     return <string>this.menuItems.get(category);
   }
 
-  protected handleEmptyCardClick(category: NutrientCategory) {
+  protected triggerAddMenuItemEvent(category: NutrientCategory) {
     this.onTriggerAddMenuItem.emit({ category: category, editedDailyPlan: this });
   }
 }
