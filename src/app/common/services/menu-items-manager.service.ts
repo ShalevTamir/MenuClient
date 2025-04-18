@@ -7,9 +7,9 @@ import { MenuItem } from "../models/ros/menu-item.interface";
     providedIn: 'root'
 })
 export class MenuItemsManagerService {
-    private readonly MENU_ITEMS_MANAGER_URL = "http://localhost:3000/menu-item";
+    private readonly MENU_ITEMS_MANAGER_URL = "http://10.0.0.22:3000/menu-item";
 
-    constructor(private readonly _httpClient: HttpClient) {        
+    constructor(private readonly _httpClient: HttpClient) {                
     }
 
     public getAllMenuItems(): Observable<MenuItem[]> {

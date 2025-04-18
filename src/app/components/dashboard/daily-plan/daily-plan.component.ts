@@ -28,6 +28,10 @@ export class DailyPlanComponent {
   public setMenuItem(category: NutrientCategory, menuItemName: string): void {
     this.menuItems.set(category, menuItemName);
   }
+
+  public removeMenuItem(category: NutrientCategory): void {
+    this.menuItems.delete(category);
+  }
   
   public hasMenuItem(category: NutrientCategory): boolean {
     return this.menuItems.has(category);
