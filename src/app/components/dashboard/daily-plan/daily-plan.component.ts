@@ -3,6 +3,8 @@ import { NgForOf, NgIf } from '@angular/common';
 import { NutrientCategory } from '../../../common/models/enums/nutrient-category.enum';
 import { MenuItemCardComponent } from "../../../common/components/menu-item-card/menu-item-card.component";
 import { EmptyCardComponent } from "./empty-card/empty-card.component";
+import { WeekPlanManagerService } from '../../../common/services/week-plan-manager.service';
+import { TriggerAddMenuItemEvent } from '../../../common/models/daily-meal-plan/trigger-add-menu-item-event.interface';
 
 @Component({
   selector: 'app-daily-plan',
@@ -11,9 +13,11 @@ import { EmptyCardComponent } from "./empty-card/empty-card.component";
   imports: [MenuItemCardComponent, EmptyCardComponent, NgForOf, NgIf],
 })
 export class DailyPlanComponent {
+  @Input({ required: true }) public dayIndex!: number;
   @Input({ required: true }) readableDayString!: string;
-  @Output() onAddMenuItem: EventEmitter<NutrientCategory> = new EventEmitter<NutrientCategory>();
+  @Output() onTriggerAddMenuItem: EventEmitter<TriggerAddMenuItemEvent> = new EventEmitter<TriggerAddMenuItemEvent>();
 
+  // value - menu item name
   private readonly menuItems: Map<NutrientCategory, string>;
   protected readonly nutrientCategories = Object.values(NutrientCategory);
   
@@ -21,8 +25,8 @@ export class DailyPlanComponent {
     this.menuItems = new Map<NutrientCategory, string>();
   }
   
-  public setMenuItem(category: NutrientCategory, foodItem: string): void {
-    this.menuItems.set(category, foodItem);
+  public setMenuItem(category: NutrientCategory, menuItemName: string): void {
+    this.menuItems.set(category, menuItemName);
   }
   
   public hasMenuItem(category: NutrientCategory): boolean {
@@ -34,6 +38,6 @@ export class DailyPlanComponent {
   }
 
   protected handleEmptyCardClick(category: NutrientCategory) {
-    this.onAddMenuItem.emit(category)
+    this.onTriggerAddMenuItem.emit({ category: category, editedDailyPlan: this });
   }
 }

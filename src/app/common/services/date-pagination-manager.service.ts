@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { DateRange } from "../models/interfaces/date-range.interface";
+import { DateRange } from "../models/paginator/date-range.interface";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { ParsedDateRange } from "../models/interfaces/parsed-date-range.interface";
+import { ReadableDateRange } from "../models/paginator/parsed-date-range.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -21,19 +21,11 @@ export class DatePaginationManagerService {
         return this._paginationSubject.asObservable();
     }
 
-    public parseDateRange(dateRange: DateRange): ParsedDateRange {
+    public parseDateRange(dateRange: DateRange): ReadableDateRange {
         return {
             startDate: this.parseDate(dateRange.startDate),
             endDate: this.parseDate(dateRange.endDate)
         }
-    }
-
-    private parseDate(date: Date): string {
-        const day: string = String(date.getDate()).padStart(2, '0');
-        const month: string = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
-        const year: string = String(date.getFullYear()).slice(-2); // get last 2 digits
-      
-        return `${day}.${month}.${year}`;
     }
 
     public paginateForward(): void {
@@ -49,24 +41,43 @@ export class DatePaginationManagerService {
         endDate.setDate(endDate.getDate() - this.DAYS_IN_A_WEEK);
         this._paginationSubject.next(this._currentDateRange);
     }
+    
+    public getCurrentDateOfTheWeek(dayIndex: number): Date {
+        const { startDate } = this._currentDateRange;
+        const currentDateOftheWeek: Date = new Date(startDate);
+        currentDateOftheWeek.setDate(currentDateOftheWeek.getDate() + dayIndex);
+        return currentDateOftheWeek;
+    }
 
     private initializeCurrentPage() {
-        const today: Date = new Date();
-        const currentDayIndex: number = today.getDay(); // 0-6 (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+        const todayLocal: Date = new Date();
+        const todayUTC: Date = new Date(Date.UTC(
+            todayLocal.getUTCFullYear(), 
+            todayLocal.getUTCMonth(), 
+            todayLocal.getUTCDate(), 
+        ));
+
+        const currentDayIndex: number = todayUTC.getDay(); // 0-6 (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
         const diffToSunday: number = -currentDayIndex; 
 
-        const sunday = new Date(today);
-        sunday.setDate(today.getDate() + diffToSunday);
-        sunday.setHours(0, 0, 0, 0);
+        const sunday = new Date(todayUTC);
+        sunday.setDate(todayUTC.getDate() + diffToSunday);
 
         const friday = new Date(sunday);
         friday.setDate(sunday.getDate() + this.DAYS_TO_DISPLAY - 1);
-        friday.setHours(0, 0, 0, 0);
         
         this._currentDateRange = {
             startDate: sunday, 
             endDate: friday    
         };        
+    }
+    
+    private parseDate(date: Date): string {
+        const day: string = String(date.getDate()).padStart(2, '0');
+        const month: string = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
+        const year: string = String(date.getFullYear()).slice(-2); // get last 2 digits
+      
+        return `${day}.${month}.${year}`;
     }
     
 }

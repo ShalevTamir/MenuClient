@@ -1,4 +1,4 @@
-export interface ParsedDateRange {
+export interface ReadableDateRange {
     startDate: string;
     endDate: string;
 }

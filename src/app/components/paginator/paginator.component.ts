@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DatePaginationManagerService } from '../../common/services/date-pagination-manager.service';
-import { DateRange } from '../../common/models/interfaces/date-range.interface';
-import { ParsedDateRange } from '../../common/models/interfaces/parsed-date-range.interface';
+import { DateRange } from '../../common/models/paginator/date-range.interface';
+import { ReadableDateRange } from '../../common/models/paginator/parsed-date-range.interface';
 
 @Component({
   selector: 'app-paginator',
@@ -19,7 +19,7 @@ export class PaginatorComponent implements OnInit{
   
   ngOnInit(): void {
     this._datePaginationManagerService.listenToPagination().subscribe((dateRange: DateRange) => {
-      const parsedDateRange: ParsedDateRange = this._datePaginationManagerService.parseDateRange(dateRange);
+      const parsedDateRange: ReadableDateRange = this._datePaginationManagerService.parseDateRange(dateRange);
       this.parsedStartDate = parsedDateRange.startDate;
       this.parsedEndDate = parsedDateRange.endDate;
     });

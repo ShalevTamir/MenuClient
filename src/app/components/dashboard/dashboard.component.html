@@ -1,6 +1,4 @@
-<app-daily-plan *ngFor="let day of daysOfTheWeek" [readableDayString]="day" (onAddMenuItem)="handleAddMenuItem($event)"></app-daily-plan>
+<app-daily-plan *ngFor="let day of daysOfTheWeek; let dayIndex = index" [readableDayString]="day" [dayIndex]="dayIndex" (onTriggerAddMenuItem)="triggerAddMenuItem($event)"></app-daily-plan>
 <app-menu-item-picker 
-[isVisible]="isChoosingMenuItem"
-(onClose)="isChoosingMenuItem = false;"
-(onMenuItemSelected)="isChoosingMenuItem = false;">
+(onMenuItemSelected)="handleMenuItemSelected($event)">
 </app-menu-item-picker>
