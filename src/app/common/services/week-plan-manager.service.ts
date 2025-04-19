@@ -9,7 +9,7 @@ import { MenuItem } from "../models/ros/menu-item.interface";
     providedIn: 'root'
 })
 export class WeekPlanManagerService {
-    private readonly DAILY_MEAL_PLANS_MANAGER_URL = "http://10.0.0.22:3000/daily-meal-plan";
+    private readonly DAILY_MEAL_PLANS_MANAGER_URL = "https://meals-manager-two.vercel.app/daily-meal-plan";
 
     public static readonly DAYS_OF_THE_WEEK = [
         'יום ראשון',
