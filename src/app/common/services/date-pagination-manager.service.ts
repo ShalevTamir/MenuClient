@@ -58,10 +58,10 @@ export class DatePaginationManagerService {
         ));
 
         const currentDayIndex: number = todayUTC.getDay(); // 0-6 (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-        const diffToSunday: number = -currentDayIndex; 
+        const diffToNextSunday: number = this.DAYS_IN_A_WEEK - currentDayIndex; 
 
         const sunday = new Date(todayUTC);
-        sunday.setDate(todayUTC.getDate() + diffToSunday);
+        sunday.setDate(todayUTC.getDate() + diffToNextSunday);
 
         const friday = new Date(sunday);
         friday.setDate(sunday.getDate() + this.DAYS_TO_DISPLAY - 1);
