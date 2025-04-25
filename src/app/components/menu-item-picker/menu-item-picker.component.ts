@@ -6,7 +6,7 @@ import { NutrientCategory } from '../../common/models/enums/nutrient-category.en
 import { MenuItem } from '../../common/models/ros/menu-item.interface';
 import { TriggerAddMenuItemEvent } from '../../common/models/daily-meal-plan/trigger-add-menu-item-event.interface';
 import { MenuItemSelectedevent } from '../../common/models/daily-meal-plan/menu-item-selected-event.interface';
-import { MenuItemsManagerService } from '../../common/services/menu-items-manager.service';
+import { MenuItemsCrudService } from '../../common/services/crud/menu-items-crud.service';
 import { DailyPlanComponent } from '../dashboard/daily-plan/daily-plan.component';
 
 @Component({
@@ -24,7 +24,7 @@ export class MenuItemPickerComponent {
   private menuItems: MenuItem[] = [];
   private editedDailyPlan!: DailyPlanComponent;
 
-  public constructor(private readonly _menuItemsManagerService: MenuItemsManagerService) {    
+  public constructor(private readonly _menuItemsManagerService: MenuItemsCrudService) {    
 
   }
 

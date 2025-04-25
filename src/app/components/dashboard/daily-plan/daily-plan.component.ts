@@ -3,7 +3,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { NutrientCategory } from '../../../common/models/enums/nutrient-category.enum';
 import { MenuItemCardComponent } from "../../../common/components/menu-item-card/menu-item-card.component";
 import { EmptyCardComponent } from "./empty-card/empty-card.component";
-import { WeekPlanManagerService } from '../../../common/services/week-plan-manager.service';
+import { MealPlanCrudService } from '../../../common/services/crud/meal-plan-crud.service';
 import { TriggerAddMenuItemEvent } from '../../../common/models/daily-meal-plan/trigger-add-menu-item-event.interface';
 
 @Component({

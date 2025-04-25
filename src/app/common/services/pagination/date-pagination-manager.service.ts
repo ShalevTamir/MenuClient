@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { DateRange } from "../models/paginator/date-range.interface";
+import { DateRange } from "../../models/paginator/date-range.interface";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { ReadableDateRange } from "../models/paginator/readable-date-range.interface";
+import { ReadableDateRange } from "../../models/paginator/readable-date-range.interface";
 
 @Injectable({
     providedIn: 'root'

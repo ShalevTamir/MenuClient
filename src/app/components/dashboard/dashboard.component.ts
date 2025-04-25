@@ -1,16 +1,17 @@
 import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
 import { MenuItemPickerComponent } from "../menu-item-picker/menu-item-picker.component";
-import { MenuItemsManagerService } from '../../common/services/menu-items-manager.service';
+import { MenuItemsCrudService } from '../../common/services/crud/menu-items-crud.service';
 import { NutrientCategory } from '../../common/models/enums/nutrient-category.enum';
 import { DateRange } from '../../common/models/paginator/date-range.interface';
-import { DatePaginationManagerService } from '../../common/services/date-pagination-manager.service';
+import { DatePaginationManagerService } from '../../common/services/pagination/date-pagination-manager.service';
 import { DailyPlanComponent } from './daily-plan/daily-plan.component';
-import { WeekPlanManagerService } from '../../common/services/week-plan-manager.service';
+import { MealPlanCrudService } from '../../common/services/crud/meal-plan-crud.service';
 import { MenuItem } from '../../common/models/ros/menu-item.interface';
 import { TriggerAddMenuItemEvent } from '../../common/models/daily-meal-plan/trigger-add-menu-item-event.interface';
 import { MenuItemSelectedevent as MenuItemSelectedEvent } from '../../common/models/daily-meal-plan/menu-item-selected-event.interface';
 import { DailyMealPlan } from '../../common/models/ros/daily-meal-plan.interface';
+import { MealPlanUtilsService } from '../../common/services/utils/meal-plan-utils.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,11 +23,12 @@ export class DashboardComponent implements AfterViewInit {
   @ViewChild(MenuItemPickerComponent) private menuItemPickerComponent!: MenuItemPickerComponent;
   @ViewChildren(DailyPlanComponent) private dailyPlans!: QueryList<DailyPlanComponent>;
   
-  protected readonly daysOfTheWeek = WeekPlanManagerService.DAYS_OF_THE_WEEK;
+  protected readonly daysOfTheWeek = MealPlanUtilsService.DAYS_OF_THE_WEEK;
   protected menuItems: MenuItem[] = []  
 
   constructor(
-    private readonly _weeklyPlanManagerService: WeekPlanManagerService,
+    private readonly _mealPlanCrudService: MealPlanCrudService,
+    private readonly _mealPlanUtilsService: MealPlanUtilsService,
     private readonly _datePaginationManagerService: DatePaginationManagerService) {}  
     
     public ngAfterViewInit(): void {
@@ -34,10 +36,10 @@ export class DashboardComponent implements AfterViewInit {
     }
     
     public handlePagination(dateRange: DateRange) {
-      this._weeklyPlanManagerService.getMealPlansByDateRange(dateRange.startDate, dateRange.endDate).subscribe((dailyMealPlans: DailyMealPlan[]) => {
+      this._mealPlanCrudService.getMealPlansByDateRange(dateRange.startDate, dateRange.endDate).subscribe((dailyMealPlans: DailyMealPlan[]) => {
         for (const dailyPlanComponent of this.dailyPlans) {
           const currentDateOfTheWeek: Date = this._datePaginationManagerService.getCurrentDateOfTheWeek(dailyPlanComponent.dayIndex);
-          const dailyMealPlan: DailyMealPlan | undefined = this._weeklyPlanManagerService.findDailyMealPlanByDate(currentDateOfTheWeek, dailyMealPlans);
+          const dailyMealPlan: DailyMealPlan | undefined = this._mealPlanUtilsService.findDailyMealPlanByDate(currentDateOfTheWeek, dailyMealPlans);
           this.updateDailyMenuItems(dailyPlanComponent, dailyMealPlan?.menuItems || []);
         }      
       });
@@ -56,7 +58,7 @@ export class DashboardComponent implements AfterViewInit {
     
     public handleMenuItemSelected(menuItemSelectedevent: MenuItemSelectedEvent) {
       const currentDateOftheWeek: Date = this._datePaginationManagerService.getCurrentDateOfTheWeek(menuItemSelectedevent.editedDailyPlan.dayIndex);      
-      this._weeklyPlanManagerService.updateMealPlanByDate(currentDateOftheWeek, menuItemSelectedevent.menuItem).subscribe((_: DailyMealPlan) => {
+      this._mealPlanCrudService.updateMealPlanByDate(currentDateOftheWeek, menuItemSelectedevent.menuItem).subscribe((_: DailyMealPlan) => {
         const selectedMenuItem: MenuItem = menuItemSelectedevent.menuItem;
         menuItemSelectedevent.editedDailyPlan.setMenuItem(selectedMenuItem.type, selectedMenuItem.name);
       });

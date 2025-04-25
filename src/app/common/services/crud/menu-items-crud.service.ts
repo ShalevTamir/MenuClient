@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { MenuItem } from "../models/ros/menu-item.interface";
+import { MenuItem } from "../../models/ros/menu-item.interface";
 
 @Injectable({
     providedIn: 'root'
 })
-export class MenuItemsManagerService {
+export class MenuItemsCrudService {
     private readonly MENU_ITEMS_MANAGER_URL = "https://meals-manager-two.vercel.app/menu-item";
 
     constructor(private readonly _httpClient: HttpClient) {                

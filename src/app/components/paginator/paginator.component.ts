@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { DatePaginationManagerService } from '../../common/services/date-pagination-manager.service';
+import { DatePaginationManagerService } from '../../common/services/pagination/date-pagination-manager.service';
 import { DateRange } from '../../common/models/paginator/date-range.interface';
 import { ReadableDateRange } from '../../common/models/paginator/readable-date-range.interface';
 
