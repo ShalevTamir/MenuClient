@@ -1,4 +1,11 @@
-<app-daily-plan *ngFor="let day of daysOfTheWeek; let dayIndex = index" [readableDayString]="day" [dayIndex]="dayIndex" (onTriggerAddMenuItem)="triggerAddMenuItem($event)"></app-daily-plan>
+<div class="loading-spinner-container" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="meal-plans-container" [class.hide]="isLoading">
+    <app-daily-plan *ngFor="let day of daysOfTheWeek; let dayIndex = index" [readableDayString]="day" [dayIndex]="dayIndex" (onTriggerAddMenuItem)="triggerAddMenuItem($event)"></app-daily-plan>
+</div>  
+
 <app-menu-item-picker 
 (onMenuItemSelected)="handleMenuItemSelected($event)">
 </app-menu-item-picker>

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
 import { MenuItemPickerComponent } from "../menu-item-picker/menu-item-picker.component";
-import { MenuItemsCrudService } from '../../common/services/crud/menu-items-crud.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { NutrientCategory } from '../../common/models/enums/nutrient-category.enum';
 import { DateRange } from '../../common/models/paginator/date-range.interface';
 import { DatePaginationManagerService } from '../../common/services/pagination/date-pagination-manager.service';
@@ -15,7 +15,7 @@ import { MealPlanUtilsService } from '../../common/services/utils/meal-plan-util
 
 @Component({
   selector: 'app-dashboard',
-  imports: [DailyPlanComponent, NgForOf, MenuItemPickerComponent],
+  imports: [DailyPlanComponent, NgForOf, NgIf, MenuItemPickerComponent, MatProgressSpinnerModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -25,6 +25,7 @@ export class DashboardComponent implements AfterViewInit {
   
   protected readonly daysOfTheWeek = MealPlanUtilsService.DAYS_OF_THE_WEEK;
   protected menuItems: MenuItem[] = []  
+  protected isLoading: boolean = true;
 
   constructor(
     private readonly _mealPlanCrudService: MealPlanCrudService,
@@ -36,12 +37,14 @@ export class DashboardComponent implements AfterViewInit {
     }
     
     public handlePagination(dateRange: DateRange) {
+      this.isLoading = true;
       this._mealPlanCrudService.getMealPlansByDateRange(dateRange.startDate, dateRange.endDate).subscribe((dailyMealPlans: DailyMealPlan[]) => {
         for (const dailyPlanComponent of this.dailyPlans) {
           const currentDateOfTheWeek: Date = this._datePaginationManagerService.getCurrentDateOfTheWeek(dailyPlanComponent.dayIndex);
           const dailyMealPlan: DailyMealPlan | undefined = this._mealPlanUtilsService.findDailyMealPlanByDate(currentDateOfTheWeek, dailyMealPlans);
           this.updateDailyMenuItems(dailyPlanComponent, dailyMealPlan?.menuItems || []);
         }      
+        this.isLoading = false;
       });
     }
 
