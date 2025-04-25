@@ -13,7 +13,7 @@ export class MealPlanCrudService {
     constructor(private _httpClient: HttpClient, private _contextService: ContextService) {} 
 
     public getMealPlansByDateRange(startDate: Date, endDate: Date) : Observable<DailyMealPlan[]>{
-        return this._httpClient.get<DailyMealPlan[]>(`${this._contextService.DailyMealPlansManagerUrl}?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`);
+        return this._httpClient.get<DailyMealPlan[]>(`${this._contextService.DailyMealPlansManagerUrl}/date-range?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`);
     }
     
     public updateMealPlanByDate(date: Date, menuItemToAdd: MenuItem): Observable<DailyMealPlan> {

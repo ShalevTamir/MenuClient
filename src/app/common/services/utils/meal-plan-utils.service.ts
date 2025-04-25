@@ -16,7 +16,7 @@ export class MealPlanUtilsService {
 
     public findDailyMealPlanByDate(date: Date, dailyMealPlans: DailyMealPlan[]): DailyMealPlan | undefined {
         return dailyMealPlans.find((dailyMealPlan: DailyMealPlan) => 
-        date.getDate() === new Date(dailyMealPlan.date).getDate()
+        date.getTime() === new Date(dailyMealPlan.date).getTime()
         );
     }
 }
