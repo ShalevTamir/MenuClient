@@ -1,0 +1,13 @@
+@use 'global/variables.scss' as *;
+
+@mixin card-host {
+    flex: 1;
+}
+
+@mixin card-container {
+    height: 20vh;
+    min-height: 150px;
+    background-color: $primary-color;
+    border-radius: 30px;
+    margin-right: 2vw; margin-left: 2vw; margin-top: 1.5vh;
+}

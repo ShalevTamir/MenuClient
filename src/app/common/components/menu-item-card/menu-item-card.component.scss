@@ -1,13 +1,10 @@
+@use 'mixins/card.scss' as card;
+
 :host {
-    flex: 1;
+    @include card.card-host;
     
-    .wrapper {    
-        height: 20vh;
-        min-height: 150px;
-        background-color: #D9D9D9;
-        border-radius: 30px;
-        margin-right: 2vw; margin-left: 2vw;
-        margin-top: 1.5vh;
+    .container {    
+        @include card.card-container;
         background-size: cover;
         background-position: center;
     }
