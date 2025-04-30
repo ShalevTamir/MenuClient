@@ -36,7 +36,7 @@ export class DashboardComponent implements AfterViewInit {
       this._datePaginationManagerService.listenToPagination().subscribe(this.handlePagination.bind(this));
     }
     
-    public handlePagination(dateRange: DateRange) {
+    private handlePagination(dateRange: DateRange) {
       this.isLoading = true;
       this._mealPlanCrudService.getMealPlansByDateRange(dateRange.startDate, dateRange.endDate).subscribe((dailyMealPlans: DailyMealPlan[]) => {
         for (const dailyPlanComponent of this.dailyPlans) {
@@ -52,7 +52,7 @@ export class DashboardComponent implements AfterViewInit {
       for (const nutrientCategory of Object.values(NutrientCategory)) {
         const menuItem: MenuItem | undefined = menuItems.find((menuItem: MenuItem) => menuItem.type === nutrientCategory);
         if (menuItem) {
-          dailyPlanComponent.setMenuItem(nutrientCategory, menuItem);
+          dailyPlanComponent.setMenuItem(menuItem);
         } else {
           dailyPlanComponent.removeMenuItem(nutrientCategory); // Reset the menu item if not found
         }        
@@ -63,11 +63,11 @@ export class DashboardComponent implements AfterViewInit {
       const currentDateOftheWeek: Date = this._datePaginationManagerService.getCurrentDateOfTheWeek(menuItemSelectedevent.editedDailyPlan.dayIndex);      
       this._mealPlanCrudService.updateMealPlanByDate(currentDateOftheWeek, menuItemSelectedevent.menuItem).subscribe((_: DailyMealPlan) => {
         const selectedMenuItem: MenuItem = menuItemSelectedevent.menuItem;
-        menuItemSelectedevent.editedDailyPlan.setMenuItem(selectedMenuItem.type, selectedMenuItem);
+        menuItemSelectedevent.editedDailyPlan.setMenuItem(selectedMenuItem);
       });
     }
 
-    protected triggerAddMenuItem(addMenuItemEvent: TriggerAddMenuItemEvent) {
+    protected openMenuItemPicker(addMenuItemEvent: TriggerAddMenuItemEvent) {
       this.menuItemPickerComponent.open(addMenuItemEvent);
     }
   }

@@ -20,33 +20,33 @@ import { EditMenuItemEvent } from '../../../common/models/menu-item/edit/edit-me
 export class DailyPlanComponent {
   @Input({ required: true }) public dayIndex!: number;
   @Input({ required: true }) readableDayString!: string;
-  @Output() onTriggerAddMenuItem: EventEmitter<TriggerAddMenuItemEvent> = new EventEmitter<TriggerAddMenuItemEvent>();
+  @Output() onTriggerMenuItemPicker: EventEmitter<TriggerAddMenuItemEvent> = new EventEmitter<TriggerAddMenuItemEvent>();
 
   protected readonly nutrientCategories: NutrientCategory[] = Object.values(NutrientCategory);
   protected readonly menuItemState: typeof MenuItemState = MenuItemState;
-  private readonly menuItems: Map<NutrientCategory, MenuItemContext>;
+  protected readonly menuItemsStates: Map<NutrientCategory, MenuItemContext>;
   
   constructor() {
-    this.menuItems = new Map<NutrientCategory, MenuItemContext>();    
+    this.menuItemsStates = new Map<NutrientCategory, MenuItemContext>();    
     this.initMenuItemsDict();
   }
   
   private initMenuItemsDict(): void {
     for (const nutrientCategory of this.nutrientCategories) {
-      this.menuItems.set(nutrientCategory, { menuItem: undefined, state: MenuItemState.MISSING });
+      this.menuItemsStates.set(nutrientCategory, { menuItem: undefined, state: MenuItemState.MISSING });
     }
   }
   
-  public setMenuItem(category: NutrientCategory, menuItemName: MenuItem): void {
-    this.menuItems.set(category, { menuItem: menuItemName, state: MenuItemState.VIEW });
+  public setMenuItem(menuItem: MenuItem): void {
+    this.menuItemsStates.set(menuItem.type, { menuItem: menuItem, state: MenuItemState.VIEW });
   }
 
   public removeMenuItem(category: NutrientCategory): void {
-    this.menuItems.set(category, { menuItem: undefined, state: MenuItemState.MISSING });
+    this.menuItemsStates.set(category, { menuItem: undefined, state: MenuItemState.MISSING });
   }
 
-  protected handleTriggerEditMenuItem(category: NutrientCategory): void {
-    this.menuItems.get(category)!.state = MenuItemState.EDIT;
+  protected toggleMenuItemEditMode(category: NutrientCategory): void {
+    this.menuItemsStates.get(category)!.state = MenuItemState.EDIT;
   }
 
   protected handleEditMenuItem(editMenuItemEvent: EditMenuItemEvent) {
@@ -54,14 +54,14 @@ export class DailyPlanComponent {
   }
   
   protected getMenuItemState(category: NutrientCategory): MenuItemState {
-    return this.menuItems.get(category)!.state;
+    return this.menuItemsStates.get(category)!.state;
   }
   
   protected getMenuItem(category: NutrientCategory): MenuItem {
-    return this.menuItems.get(category)!.menuItem!;
+    return this.menuItemsStates.get(category)!.menuItem!;
   }
 
-  protected triggerAddMenuItemEvent(category: NutrientCategory) {
-    this.onTriggerAddMenuItem.emit({ category: category, editedDailyPlan: this });
+  protected triggerMenuItemPicker(category: NutrientCategory) {
+    this.onTriggerMenuItemPicker.emit({ category: category, editedDailyPlan: this });
   }
 }

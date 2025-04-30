@@ -6,7 +6,7 @@
                 *ngSwitchCase="menuItemState.VIEW" 
                 [menuItem]="getMenuItem(nutientCategory)"
                 [isEditable]="true"
-                (onTriggerEditMenuItem)="handleTriggerEditMenuItem($event)"></app-menu-item-card>
+                (onToggleMenuItemEditMode)="toggleMenuItemEditMode($event)"></app-menu-item-card>
 
             <app-edit-card 
                 *ngSwitchCase="menuItemState.EDIT" 
@@ -16,7 +16,7 @@
             <app-empty-card 
                 *ngSwitchCase="menuItemState.MISSING" 
                 [nutrientCategory]="nutientCategory" 
-                (click)="triggerAddMenuItemEvent(nutientCategory)"></app-empty-card>
+                (click)="triggerMenuItemPicker(nutientCategory)"></app-empty-card>
         </ng-container>
     </ng-container>
 </div>
