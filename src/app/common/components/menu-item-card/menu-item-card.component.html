@@ -1,2 +1,5 @@
 <div class="container" [style.backgroundImage]="'url(' + buildImagePath() + ')'">
+    <div class="icon-container" *ngIf="isEditable" (click)="handleEditClick()">
+        <mat-icon fontIcon="edit" class="edit-icon"></mat-icon>
+    </div>
 </div>

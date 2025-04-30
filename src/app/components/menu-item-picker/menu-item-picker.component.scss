@@ -1,3 +1,5 @@
+@use 'mixins/icon.scss' as icon;
+
 .component-wrapper {
     position: fixed;
     top: 0;
@@ -32,10 +34,7 @@
         align-items: flex-end;
 
         .close-icon {
-            $size: 40px;
-            font-size: $size;
-            width: $size;
-            height: $size;
+            @include icon.icon-size(40px);
 
             margin-right: 20px;
         }

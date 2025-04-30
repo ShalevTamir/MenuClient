@@ -52,7 +52,7 @@ export class DashboardComponent implements AfterViewInit {
       for (const nutrientCategory of Object.values(NutrientCategory)) {
         const menuItem: MenuItem | undefined = menuItems.find((menuItem: MenuItem) => menuItem.type === nutrientCategory);
         if (menuItem) {
-          dailyPlanComponent.setMenuItem(nutrientCategory, menuItem.name);
+          dailyPlanComponent.setMenuItem(nutrientCategory, menuItem);
         } else {
           dailyPlanComponent.removeMenuItem(nutrientCategory); // Reset the menu item if not found
         }        
@@ -63,7 +63,7 @@ export class DashboardComponent implements AfterViewInit {
       const currentDateOftheWeek: Date = this._datePaginationManagerService.getCurrentDateOfTheWeek(menuItemSelectedevent.editedDailyPlan.dayIndex);      
       this._mealPlanCrudService.updateMealPlanByDate(currentDateOftheWeek, menuItemSelectedevent.menuItem).subscribe((_: DailyMealPlan) => {
         const selectedMenuItem: MenuItem = menuItemSelectedevent.menuItem;
-        menuItemSelectedevent.editedDailyPlan.setMenuItem(selectedMenuItem.type, selectedMenuItem.name);
+        menuItemSelectedevent.editedDailyPlan.setMenuItem(selectedMenuItem.type, selectedMenuItem);
       });
     }
 

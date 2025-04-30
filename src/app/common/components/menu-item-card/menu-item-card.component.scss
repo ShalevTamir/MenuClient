@@ -1,4 +1,6 @@
 @use 'mixins/card.scss' as card;
+@use 'mixins/icon.scss' as icon;
+@use 'global/variables.scss' as *;
 
 :host {
     @include card.card-host;
@@ -7,5 +9,13 @@
         @include card.card-container;
         background-size: cover;
         background-position: center;
+        display: flex;
+        justify-content: flex-end;
+
+        .icon-container {
+            $margin: 10px;
+            margin-right: $margin; margin-top: $margin;
+            @include icon.icon-container;            
+        }
     }
 }
