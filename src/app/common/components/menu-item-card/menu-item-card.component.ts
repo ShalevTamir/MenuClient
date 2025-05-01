@@ -14,7 +14,7 @@ export class MenuItemCardComponent{
   private static readonly IMAGE_DIRECTORY = 'assets/images/';
   @Input({ required: true }) public menuItem!: MenuItem;
   @Input({ required: true }) public isEditable!: boolean;
-  @Output() public onToggleMenuItemEditMode: EventEmitter<void> = new EventEmitter<void>();
+  @Output() protected onToggleMenuItemEditMode: EventEmitter<void> = new EventEmitter<void>();
   
   protected IMAGE_PATH: string = "";
   

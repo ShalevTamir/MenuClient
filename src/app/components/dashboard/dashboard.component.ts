@@ -52,17 +52,4 @@ export class DashboardComponent implements AfterViewInit {
     protected openMenuItemPicker(addMenuItemEvent: TriggerAddMenuItemEvent) {
       this.menuItemPickerComponent.open(addMenuItemEvent);
     }
-
-    protected async handleEditMenuItem(editMenuItemEvent: EditMenuItemEvent, editedDailyPlan: DailyPlanComponent): Promise<void> {
-      switch (editMenuItemEvent.eventType) {
-        case EditEventType.CHANGE:
-          this.menuItemPickerComponent.open({ editedDailyPlan: editedDailyPlan, category: editMenuItemEvent.menuItem.type });
-          break;
-        case EditEventType.DELETE:
-          await this._mealPlanManagerService.removeMenuItem(editedDailyPlan.dayIndex, editMenuItemEvent.menuItem._id);
-          editedDailyPlan.removeMenuItem(editMenuItemEvent.menuItem.type);
-          break;
-      }
-      editedDailyPlan.setMenuItemState(editMenuItemEvent.menuItem.type, CardState.VIEW);
-    }
   }

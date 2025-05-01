@@ -10,6 +10,8 @@ import { CardState } from '../../../common/models/menu-item/context/card-state.e
 import { MenuItemContext } from '../../../common/models/menu-item/context/menu-item-context.interface';
 import { EditCardComponent } from './edit-card/edit-card.component';
 import { EditMenuItemEvent } from '../../../common/models/menu-item/edit/edit-menu-item.event.interface';
+import { EditEventType } from '../../../common/models/menu-item/edit/edit-event-type.enums';
+import { MealPlanManagerService } from '../../../common/services/utils/meal-plan-utils.service';
 
 @Component({
   selector: 'app-daily-plan',
@@ -21,12 +23,13 @@ export class DailyPlanComponent {
   @Input({ required: true }) public dayIndex!: number;
   @Input({ required: true }) public readableDayString!: string;
   @Output() protected onTriggerMenuItemPicker: EventEmitter<TriggerAddMenuItemEvent> = new EventEmitter<TriggerAddMenuItemEvent>();
-  @Output() protected onEditMenuItem: EventEmitter<EditMenuItemEvent> = new EventEmitter<EditMenuItemEvent>();
 
   protected readonly nutrientCategories: NutrientCategory[] = Object.values(NutrientCategory);
   protected readonly CardState: typeof CardState = CardState;
   protected menuItemsStates: MenuItemContext[] = [];
-     
+  
+  constructor(private readonly _mealPlanManagerService: MealPlanManagerService) {}
+
   public resetMenuItems(menuItems: MenuItem[]) {
     this.menuItemsStates = menuItems.map(menuItem => { return { menuItem: menuItem, state: CardState.VIEW } });
   }
@@ -41,23 +44,32 @@ export class DailyPlanComponent {
     if (menuItemContext !== undefined) {
       menuItemContext.state = state;
     }
-  }
-  
-  public removeMenuItem(category: NutrientCategory): void {
-    const stateIndex: number = this.menuItemsStates.findIndex(menuItemContext => menuItemContext.menuItem.type === category);
-    if (stateIndex !== -1)
-      this.menuItemsStates.splice(stateIndex);
-  }
+  }  
   
   protected getMenuItemContext(category: NutrientCategory): MenuItemContext | undefined {
     return this.menuItemsStates.find(menuItemContext => menuItemContext.menuItem.type === category);
   }
-
-  protected handleEditMenuItem(editMenuItemEvent: EditMenuItemEvent) {
-    this.onEditMenuItem.emit(editMenuItemEvent);
-  }
   
   protected triggerMenuItemPicker(category: NutrientCategory) {
     this.onTriggerMenuItemPicker.emit({ category: category, editedDailyPlan: this });
+  }
+
+  protected async handleEditMenuItem(editMenuItemEvent: EditMenuItemEvent): Promise<void> {
+    switch (editMenuItemEvent.eventType) {
+      case EditEventType.CHANGE:
+        this.triggerMenuItemPicker(editMenuItemEvent.menuItem.type);
+        break;
+      case EditEventType.DELETE:
+        await this._mealPlanManagerService.removeMenuItem(this.dayIndex, editMenuItemEvent.menuItem._id);
+        this.removeMenuItem(editMenuItemEvent.menuItem.type);
+        break;
+    }
+    this.setMenuItemState(editMenuItemEvent.menuItem.type, CardState.VIEW);
+  }
+  
+  private removeMenuItem(category: NutrientCategory): void {
+    const stateIndex: number = this.menuItemsStates.findIndex(menuItemContext => menuItemContext.menuItem.type === category);
+    if (stateIndex !== -1)
+      this.menuItemsStates.splice(stateIndex);
   }
 }

@@ -8,8 +8,7 @@
         *ngFor="let day of daysOfTheWeek; let dayIndex = index"
         [readableDayString]="day"
         [dayIndex]="dayIndex"
-        (onTriggerMenuItemPicker)="openMenuItemPicker($event)"
-        (onEditMenuItem)="handleEditMenuItem($event, dailyPlan)">
+        (onTriggerMenuItemPicker)="openMenuItemPicker($event)">
     </app-daily-plan>
 </div>  
 
