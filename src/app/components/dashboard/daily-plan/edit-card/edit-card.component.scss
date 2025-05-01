@@ -13,7 +13,8 @@
     align-items: center;
     flex-wrap: wrap;
     background-color: $primary-color;
-    position: relative;    
+    position: relative;
+    flex-direction: column;    
 
     .icon-container{
         @include icon.icon-container;

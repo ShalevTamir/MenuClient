@@ -14,8 +14,8 @@ export class MenuItemCardComponent{
   private static readonly IMAGE_DIRECTORY = 'assets/images/';
   @Input({ required: true }) public menuItem!: MenuItem;
   @Input({ required: true }) public isEditable!: boolean;
-  @Output() public onTriggerEditMenuItem: EventEmitter<NutrientCategory> = new EventEmitter<NutrientCategory>();
-
+  @Output() public onToggleMenuItemEditMode: EventEmitter<void> = new EventEmitter<void>();
+  
   protected IMAGE_PATH: string = "";
   
   public buildImagePath(): string {
@@ -23,6 +23,6 @@ export class MenuItemCardComponent{
   }
 
   public handleEditClick(): void {
-    this.onTriggerEditMenuItem.emit(this.menuItem.type);
+    this.onToggleMenuItemEditMode.emit();
   }
 }

@@ -1,7 +1,7 @@
 import { MenuItem } from "../../ros/menu-item.interface";
-import { MenuItemState } from "./menu-item-state.enum";
+import { CardState } from "./card-state.enum";
 
 export interface MenuItemContext {
-    menuItem: MenuItem | undefined,
-    state: MenuItemState
+    menuItem: MenuItem,
+    state: CardState
 }

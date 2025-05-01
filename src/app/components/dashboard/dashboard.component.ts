@@ -11,7 +11,10 @@ import { MenuItem } from '../../common/models/ros/menu-item.interface';
 import { TriggerAddMenuItemEvent } from '../../common/models/daily-meal-plan/trigger-add-menu-item-event.interface';
 import { MenuItemSelectedevent as MenuItemSelectedEvent } from '../../common/models/daily-meal-plan/menu-item-selected-event.interface';
 import { DailyMealPlan } from '../../common/models/ros/daily-meal-plan.interface';
-import { MealPlanUtilsService } from '../../common/services/utils/meal-plan-utils.service';
+import { MealPlanManagerService } from '../../common/services/utils/meal-plan-utils.service';
+import { EditMenuItemEvent } from '../../common/models/menu-item/edit/edit-menu-item.event.interface';
+import { EditEventType } from '../../common/models/menu-item/edit/edit-event-type.enums';
+import { CardState } from '../../common/models/menu-item/context/card-state.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,51 +26,43 @@ export class DashboardComponent implements AfterViewInit {
   @ViewChild(MenuItemPickerComponent) private menuItemPickerComponent!: MenuItemPickerComponent;
   @ViewChildren(DailyPlanComponent) private dailyPlans!: QueryList<DailyPlanComponent>;
   
-  protected readonly daysOfTheWeek = MealPlanUtilsService.DAYS_OF_THE_WEEK;
+  protected readonly daysOfTheWeek = MealPlanManagerService.DAYS_OF_THE_WEEK;
   protected menuItems: MenuItem[] = []  
   protected isLoading: boolean = true;
 
   constructor(
-    private readonly _mealPlanCrudService: MealPlanCrudService,
-    private readonly _mealPlanUtilsService: MealPlanUtilsService,
+    private readonly _mealPlanManagerService: MealPlanManagerService,
     private readonly _datePaginationManagerService: DatePaginationManagerService) {}  
     
     public ngAfterViewInit(): void {
       this._datePaginationManagerService.listenToPagination().subscribe(this.handlePagination.bind(this));
     }
     
-    private handlePagination(dateRange: DateRange) {
+    private async handlePagination(dateRange: DateRange): Promise<void> {
       this.isLoading = true;
-      this._mealPlanCrudService.getMealPlansByDateRange(dateRange.startDate, dateRange.endDate).subscribe((dailyMealPlans: DailyMealPlan[]) => {
-        for (const dailyPlanComponent of this.dailyPlans) {
-          const currentDateOfTheWeek: Date = this._datePaginationManagerService.getCurrentDateOfTheWeek(dailyPlanComponent.dayIndex);
-          const dailyMealPlan: DailyMealPlan | undefined = this._mealPlanUtilsService.findDailyMealPlanByDate(currentDateOfTheWeek, dailyMealPlans);
-          this.updateDailyMenuItems(dailyPlanComponent, dailyMealPlan?.menuItems || []);
-        }      
-        this.isLoading = false;
-      });
+      await this._mealPlanManagerService.updateMealPlans(dateRange, this.dailyPlans.toArray());
+      this.isLoading = false;
     }
 
-    private updateDailyMenuItems(dailyPlanComponent: DailyPlanComponent, menuItems: MenuItem[]) {
-      for (const nutrientCategory of Object.values(NutrientCategory)) {
-        const menuItem: MenuItem | undefined = menuItems.find((menuItem: MenuItem) => menuItem.type === nutrientCategory);
-        if (menuItem) {
-          dailyPlanComponent.setMenuItem(menuItem);
-        } else {
-          dailyPlanComponent.removeMenuItem(nutrientCategory); // Reset the menu item if not found
-        }        
-      }
-    } 
-    
-    public handleMenuItemSelected(menuItemSelectedevent: MenuItemSelectedEvent) {
-      const currentDateOftheWeek: Date = this._datePaginationManagerService.getCurrentDateOfTheWeek(menuItemSelectedevent.editedDailyPlan.dayIndex);      
-      this._mealPlanCrudService.updateMealPlanByDate(currentDateOftheWeek, menuItemSelectedevent.menuItem).subscribe((_: DailyMealPlan) => {
-        const selectedMenuItem: MenuItem = menuItemSelectedevent.menuItem;
-        menuItemSelectedevent.editedDailyPlan.setMenuItem(selectedMenuItem);
-      });
+    public async handleMenuItemSelected(menuItemSelectedevent: MenuItemSelectedEvent): Promise<void> {
+      await this._mealPlanManagerService.updateMenuItem(menuItemSelectedevent.editedDailyPlan.dayIndex, menuItemSelectedevent.menuItem);
+      menuItemSelectedevent.editedDailyPlan.resetMenuItem(menuItemSelectedevent.menuItem);
     }
 
     protected openMenuItemPicker(addMenuItemEvent: TriggerAddMenuItemEvent) {
       this.menuItemPickerComponent.open(addMenuItemEvent);
+    }
+
+    protected async handleEditMenuItem(editMenuItemEvent: EditMenuItemEvent, editedDailyPlan: DailyPlanComponent): Promise<void> {
+      switch (editMenuItemEvent.eventType) {
+        case EditEventType.CHANGE:
+          this.menuItemPickerComponent.open({ editedDailyPlan: editedDailyPlan, category: editMenuItemEvent.menuItem.type });
+          break;
+        case EditEventType.DELETE:
+          await this._mealPlanManagerService.removeMenuItem(editedDailyPlan.dayIndex, editMenuItemEvent.menuItem._id);
+          editedDailyPlan.removeMenuItem(editMenuItemEvent.menuItem.type);
+          break;
+      }
+      editedDailyPlan.setMenuItemState(editMenuItemEvent.menuItem.type, CardState.VIEW);
     }
   }

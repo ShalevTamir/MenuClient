@@ -1,6 +1,7 @@
 @use 'mixins/icon.scss' as icon;
 
 .component-wrapper {
+    z-index: 2;
     position: fixed;
     top: 0;
     left: 0;    

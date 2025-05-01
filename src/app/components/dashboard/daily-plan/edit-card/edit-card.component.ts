@@ -18,7 +18,7 @@ export class EditCardComponent {
   protected handleEditButtonClick(editMenuItemEventType: EditEventType): void {
     this.onEditMenuItem.emit({
       eventType: editMenuItemEventType,
-      menuItemCategory: this.editedMenuItem.type
+      menuItem: this.editedMenuItem
     });
   }
 }
