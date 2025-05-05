@@ -2,7 +2,7 @@
     <div class="content-wrapper">
         <mat-icon class="close-icon" aria-hidden="false" aria-label="Example home icon" fontIcon="close" (click)="handleCloseClick()"></mat-icon>
         <div class="cards-container">
-            <app-menu-item-card *ngFor="let menuItem of menuItemsToDisplay" [menuItem]="menuItem" [isEditable]="false" (click)="handleMenuItemSelected(menuItem)"></app-menu-item-card>
+            <app-display-menu-item-card *ngFor="let menuItem of menuItemsToDisplay" [menuItemName]="menuItem.name" (click)="handleMenuItemSelected(menuItem)"></app-display-menu-item-card>
         </div>
     </div>
 </div>

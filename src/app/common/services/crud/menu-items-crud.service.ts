@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { MenuItem } from "../../models/ros/menu-item.interface";
 import { ContextService } from "../../config/context.service";
+import { MenuItem } from "../../models/ros/menu-item/menu-item.interface";
 
 @Injectable({
     providedIn: 'root'

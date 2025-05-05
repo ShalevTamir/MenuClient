@@ -4,8 +4,8 @@ import { Injectable } from "@angular/core";
     providedIn: 'root'
 })
 export class ContextService {
-    private readonly DAILY_MEAL_PLANS_MANAGER_URL = "https://meals-manager-two.vercel.app/daily-meal-plan";
-    private readonly MENU_ITEMS_MANAGER_URL = "https://meals-manager-two.vercel.app/menu-item";
+    private readonly DAILY_MEAL_PLANS_MANAGER_URL = "http://10.0.0.22:3000/daily-meal-plan";
+    private readonly MENU_ITEMS_MANAGER_URL = "http://10.0.0.22:3000/menu-item";
 
     public get DailyMealPlansManagerUrl(): string {
         return this.DAILY_MEAL_PLANS_MANAGER_URL;

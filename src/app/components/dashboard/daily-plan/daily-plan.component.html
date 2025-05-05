@@ -4,13 +4,13 @@
         <ng-container [ngSwitch]="getMenuItemContext(nutientCategory)?.state">
             <app-menu-item-card  
                 *ngSwitchCase="CardState.VIEW" 
-                [menuItem]="getMenuItemContext(nutientCategory)!.menuItem"
+                [menuItemEntry]="getMenuItemContext(nutientCategory)!.menuItemEntry"
                 [isEditable]="true"
                 (onToggleMenuItemEditMode)="setMenuItemState(nutientCategory, CardState.EDIT)"></app-menu-item-card>
 
             <app-edit-card 
                 *ngSwitchCase="CardState.EDIT" 
-                [editedMenuItem]="getMenuItemContext(nutientCategory)!.menuItem"
+                [editedMenuItem]="getMenuItemContext(nutientCategory)!.menuItemEntry.menuItem"
                 (onEditMenuItem)="handleEditMenuItem($event)"></app-edit-card>
 
             <app-empty-card 

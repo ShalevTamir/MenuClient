@@ -1,8 +1,9 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MenuItem } from '../../models/ros/menu-item.interface';
-import { NutrientCategory } from '../../models/enums/nutrient-category.enum';
+import { NutrientCategory } from '../../../../common/models/nutrient-category/nutrient-category.enum';
+import { IMAGE_DIRECTORY } from '../../../../common/models/constants/directories';
+import { MenuItemEntry } from '../../../../common/models/ros/menu-item/menu-item-entry.interface';
 
 @Component({
   selector: 'app-menu-item-card',
@@ -11,15 +12,12 @@ import { NutrientCategory } from '../../models/enums/nutrient-category.enum';
   styleUrl: './menu-item-card.component.scss'
 })
 export class MenuItemCardComponent{
-  private static readonly IMAGE_DIRECTORY = 'assets/images/';
-  @Input({ required: true }) public menuItem!: MenuItem;
+  @Input({ required: true }) public menuItemEntry!: MenuItemEntry;
   @Input({ required: true }) public isEditable!: boolean;
   @Output() protected onToggleMenuItemEditMode: EventEmitter<void> = new EventEmitter<void>();
   
-  protected IMAGE_PATH: string = "";
-  
   public buildImagePath(): string {
-    return MenuItemCardComponent.IMAGE_DIRECTORY + this.menuItem.name + '.png';
+    return IMAGE_DIRECTORY + this.menuItemEntry.menuItem.name + '.png';
   }
 
   public handleEditClick(): void {

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MenuItem } from '../../../../common/models/ros/menu-item.interface';
 import { EditEventType } from '../../../../common/models/menu-item/edit/edit-event-type.enums';
 import { EditMenuItemEvent } from '../../../../common/models/menu-item/edit/edit-menu-item.event.interface';
+import { MenuItem } from '../../../../common/models/ros/menu-item/menu-item.interface';
 
 @Component({
   selector: 'app-edit-card',

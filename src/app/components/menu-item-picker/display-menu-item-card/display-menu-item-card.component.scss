@@ -1,0 +1,11 @@
+@use 'mixins/card.scss' as card;
+@use 'mixins/icon.scss' as icon;
+@use 'global/variables.scss' as *;
+
+:host {
+    @include card.card-host;
+    
+    .container {    
+        @include card.card-container;
+    }
+}

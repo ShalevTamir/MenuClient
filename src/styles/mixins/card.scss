@@ -5,6 +5,8 @@
 }
 
 @mixin card-container {
+    background-size: cover;
+    background-position: center;
     height: 20vh;
     min-height: 150px;
     background-color: $primary-color;

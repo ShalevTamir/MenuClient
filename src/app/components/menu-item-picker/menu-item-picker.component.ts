@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MenuItemCardComponent } from "../../common/components/menu-item-card/menu-item-card.component";
+import { MenuItemCardComponent } from "../dashboard/daily-plan/menu-item-card/menu-item-card.component";
 import { MatIconModule } from '@angular/material/icon';
 import { NgForOf, NgIf } from '@angular/common';
-import { NutrientCategory } from '../../common/models/enums/nutrient-category.enum';
-import { MenuItem } from '../../common/models/ros/menu-item.interface';
+import { NutrientCategory } from '../../common/models/nutrient-category/nutrient-category.enum';
 import { TriggerAddMenuItemEvent } from '../../common/models/daily-meal-plan/trigger-add-menu-item-event.interface';
 import { MenuItemSelectedevent } from '../../common/models/daily-meal-plan/menu-item-selected-event.interface';
 import { MenuItemsCrudService } from '../../common/services/crud/menu-items-crud.service';
 import { DailyPlanComponent } from '../dashboard/daily-plan/daily-plan.component';
+import { DisplayMenuItemCardComponent } from './display-menu-item-card/display-menu-item-card.component';
+import { MenuItem } from '../../common/models/ros/menu-item/menu-item.interface';
 
 @Component({
   selector: 'app-menu-item-picker',
-  imports: [MenuItemCardComponent, MatIconModule, NgForOf, NgIf],
+  imports: [DisplayMenuItemCardComponent, MatIconModule, NgForOf, NgIf],
   templateUrl: './menu-item-picker.component.html',
   styleUrl: './menu-item-picker.component.scss'
 })

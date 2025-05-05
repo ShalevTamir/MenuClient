@@ -2,19 +2,19 @@ import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } 
 import { NgForOf, NgIf } from '@angular/common';
 import { MenuItemPickerComponent } from "../menu-item-picker/menu-item-picker.component";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { NutrientCategory } from '../../common/models/enums/nutrient-category.enum';
+import { NutrientCategory } from '../../common/models/nutrient-category/nutrient-category.enum';
 import { DateRange } from '../../common/models/paginator/date-range.interface';
 import { DatePaginationManagerService } from '../../common/services/pagination/date-pagination-manager.service';
 import { DailyPlanComponent } from './daily-plan/daily-plan.component';
 import { MealPlanCrudService } from '../../common/services/crud/meal-plan-crud.service';
-import { MenuItem } from '../../common/models/ros/menu-item.interface';
 import { TriggerAddMenuItemEvent } from '../../common/models/daily-meal-plan/trigger-add-menu-item-event.interface';
 import { MenuItemSelectedevent as MenuItemSelectedEvent } from '../../common/models/daily-meal-plan/menu-item-selected-event.interface';
-import { DailyMealPlan } from '../../common/models/ros/daily-meal-plan.interface';
-import { MealPlanManagerService } from '../../common/services/utils/meal-plan-utils.service';
+import { DailyMealPlan } from '../../common/models/ros/daily-meal-plan/daily-meal-plan.interface';
+import { MealPlanManagerService } from '../../common/services/managers/meal-plan-manager.service';
 import { EditMenuItemEvent } from '../../common/models/menu-item/edit/edit-menu-item.event.interface';
 import { EditEventType } from '../../common/models/menu-item/edit/edit-event-type.enums';
 import { CardState } from '../../common/models/menu-item/context/card-state.enum';
+import { MenuItem } from '../../common/models/ros/menu-item/menu-item.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,8 +45,8 @@ export class DashboardComponent implements AfterViewInit {
     }
 
     public async handleMenuItemSelected(menuItemSelectedevent: MenuItemSelectedEvent): Promise<void> {
-      await this._mealPlanManagerService.updateMenuItem(menuItemSelectedevent.editedDailyPlan.dayIndex, menuItemSelectedevent.menuItem);
-      menuItemSelectedevent.editedDailyPlan.resetMenuItem(menuItemSelectedevent.menuItem);
+      const menuItemEntry = await this._mealPlanManagerService.editMenuItemEntry(menuItemSelectedevent.editedDailyPlan.dayIndex, menuItemSelectedevent.menuItem);
+      menuItemSelectedevent.editedDailyPlan.resetMenuItem(menuItemEntry);
     }
 
     protected openMenuItemPicker(addMenuItemEvent: TriggerAddMenuItemEvent) {
