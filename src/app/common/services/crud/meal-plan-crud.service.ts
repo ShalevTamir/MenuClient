@@ -8,6 +8,7 @@ import { DateRange } from "../../models/paginator/date-range.interface";
 import { RemoveMenuItemDto } from "../../models/dtos/remove-menu-item.dto";
 import { MenuItem } from "../../models/ros/menu-item/menu-item.interface";
 import { DailyMealPlanUnpopulated } from "../../models/ros/daily-meal-plan/daily-meal-plan-unpopulated.inerface";
+import { MenuItemEntry } from "../../models/ros/menu-item/menu-item-entry.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -19,10 +20,10 @@ export class MealPlanCrudService {
         return this._httpClient.get<DailyMealPlan[]>(`${this._contextService.DailyMealPlansManagerUrl}/date-range?startDate=${dateRange.startDate.toISOString()}&endDate=${dateRange.endDate.toISOString()}`);
     }
     
-    public editMenuItemEntry(date: Date, menuItemToAdd: MenuItem): Observable<DailyMealPlanUnpopulated> {
+    public editMenuItemEntry(date: Date, editedEntry: MenuItemEntry): Observable<DailyMealPlanUnpopulated> {
         const updateMealPlanDto: UpdateDailyMealPlanDto = {
             date: date.toISOString(),
-            menuItemToAdd: menuItemToAdd
+            editedEntry: editedEntry
         };
         return this._httpClient.patch<DailyMealPlanUnpopulated>(`${this._contextService.DailyMealPlansManagerUrl}/edit-entry`, updateMealPlanDto);
     }

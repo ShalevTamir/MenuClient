@@ -22,6 +22,8 @@ export class MealPlanManagerService {
         'יום שישי'        
     ];
 
+    public static readonly DEFAULT_ENTRY_IS_READY_VALUE: boolean = false;
+
     constructor(
         private readonly _mealPlanCrudService: MealPlanCrudService,
         private readonly _datePaginationManagerService: DatePaginationManagerService) {}
@@ -42,18 +44,18 @@ export class MealPlanManagerService {
             });
         })
         
-    }
+    }    
 
-    public editMenuItemEntry(dailyMealPlanIndex: number, menuItemToInsert: MenuItem): Promise<MenuItemEntry> {
+    public editMenuItemEntry(dailyMealPlanIndex: number, editedEntry: MenuItemEntry): Promise<MenuItemEntry> {
         return new Promise<MenuItemEntry>((resolve, reject) => {
             const currentDateOftheWeek: Date = this._datePaginationManagerService.getCurrentDateOfTheWeek(dailyMealPlanIndex);      
-            this._mealPlanCrudService.editMenuItemEntry(currentDateOftheWeek, menuItemToInsert).subscribe({
+            this._mealPlanCrudService.editMenuItemEntry(currentDateOftheWeek, editedEntry).subscribe({
                 next: (updatedMealPlan: DailyMealPlanUnpopulated) => { 
-                    const updatedEntryRef: MenuItemEntryRef | undefined = updatedMealPlan.menuItemEntries.find(entry => entry.menuItem === menuItemToInsert._id);
+                    const updatedEntryRef: MenuItemEntryRef | undefined = updatedMealPlan.menuItemEntries.find(entry => entry.menuItem === editedEntry.menuItem._id);
                     if (updatedEntryRef === undefined) 
                         reject("Unable to find updated menu item entry in the response after trying to insert a new menu item entry");
                     else 
-                        resolve({ isReady: updatedEntryRef.isReady, menuItem: menuItemToInsert }); 
+                        resolve(editedEntry); 
                 },
                 error: (error: Error) => { reject(error) }
             });

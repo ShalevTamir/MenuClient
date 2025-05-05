@@ -12,6 +12,7 @@ import { EditMenuItemEvent } from '../../../common/models/menu-item/edit/edit-me
 import { EditEventType } from '../../../common/models/menu-item/edit/edit-event-type.enums';
 import { MealPlanManagerService } from '../../../common/services/managers/meal-plan-manager.service';
 import { MenuItemEntry } from '../../../common/models/ros/menu-item/menu-item-entry.interface';
+import { MenuItem } from '../../../common/models/ros/menu-item/menu-item.interface';
 
 @Component({
   selector: 'app-daily-plan',
@@ -64,9 +65,22 @@ export class DailyPlanComponent {
         await this._mealPlanManagerService.removeMenuItemEntry(this.dayIndex, editMenuItemEvent.menuItem._id);
         this.removeMenuItemEntry(editMenuItemEvent.menuItem.type);
         break;
-      case EditEventType.COMPLETE:
-        
+      case EditEventType.COMPLETE:        
+        await this.editEntry({ isReady: true, menuItem: editMenuItemEvent.menuItem });
+        break;
+      case EditEventType.CANCEL:
+        this.setMenuItemState(editMenuItemEvent.menuItem.type, CardState.VIEW);
+        break;
     }
+  }
+
+  protected cancelMenuItemReady(menuItem: MenuItem): Promise<void> {
+    return this.editEntry({ isReady: false, menuItem: menuItem });
+  }
+  
+  private async editEntry(menuItemEntry: MenuItemEntry): Promise<void> {
+    const updatedEntry: MenuItemEntry = await this._mealPlanManagerService.editMenuItemEntry(this.dayIndex, menuItemEntry);
+    this.resetMenuItem(updatedEntry);
   }
   
   private removeMenuItemEntry(category: NutrientCategory): void {

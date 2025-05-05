@@ -44,9 +44,12 @@ export class DashboardComponent implements AfterViewInit {
       this.isLoading = false;
     }
 
-    public async handleMenuItemSelected(menuItemSelectedevent: MenuItemSelectedEvent): Promise<void> {
-      const menuItemEntry = await this._mealPlanManagerService.editMenuItemEntry(menuItemSelectedevent.editedDailyPlan.dayIndex, menuItemSelectedevent.menuItem);
-      menuItemSelectedevent.editedDailyPlan.resetMenuItem(menuItemEntry);
+    public async handleMenuItemSelected(menuItemSelectedevent: MenuItemSelectedEvent): Promise<void> {    
+      const updatedEntry = await this._mealPlanManagerService.editMenuItemEntry(
+        menuItemSelectedevent.editedDailyPlan.dayIndex,
+        { isReady: MealPlanManagerService.DEFAULT_ENTRY_IS_READY_VALUE, menuItem: menuItemSelectedevent.menuItem }
+      );
+      menuItemSelectedevent.editedDailyPlan.resetMenuItem(updatedEntry);
     }
 
     protected openMenuItemPicker(addMenuItemEvent: TriggerAddMenuItemEvent) {
