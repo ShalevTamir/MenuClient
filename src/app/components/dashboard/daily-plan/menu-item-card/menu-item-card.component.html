@@ -1,0 +1,5 @@
+<div class="container" [class.ready]="menuItemEntry.isReady" [style.backgroundImage]="'url(' + buildImagePath() + ')'">
+    <div class="icon-container" (click)="handleIconClick()">
+        <mat-icon [fontIcon]="menuItemEntry.isReady ? 'remove_done' : 'edit'"></mat-icon>
+    </div>
+</div>

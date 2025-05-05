@@ -1,0 +1,31 @@
+@use 'mixins/card.scss' as card;
+@use 'mixins/icon.scss' as icon;
+@use 'global/variables.scss' as *;
+
+:host {
+    @include card.card-host;
+    
+    .container {    
+        @include card.card-container;
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+
+        .icon-container {
+            $margin: 10px;
+            margin-right: $margin; margin-top: $margin;
+            @include icon.icon-container;  
+            z-index: 1;          
+        }
+    }
+
+    .ready::before {
+        @include card.card-container;
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: #29cb4c66;
+        margin: 0;        
+    }
+}

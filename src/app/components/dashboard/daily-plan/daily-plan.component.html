@@ -1,11 +1,22 @@
 <span class="day-string">{{readableDayString}}</span>
 <div class="cards">
     <ng-container *ngFor="let nutientCategory of nutrientCategories">
-        <ng-container *ngIf="hasMenuItem(nutientCategory); else emptyCardContainer">
-            <app-menu-item-card [menuItemName]="getMenuItem(nutientCategory)" (click)="triggerAddMenuItemEvent(nutientCategory)"></app-menu-item-card>
+        <ng-container [ngSwitch]="getMenuItemContext(nutientCategory)?.state">
+            <app-menu-item-card  
+                *ngSwitchCase="CardState.VIEW" 
+                [menuItemEntry]="getMenuItemContext(nutientCategory)!.menuItemEntry"                
+                (onToggleMenuItemEditMode)="setMenuItemState(nutientCategory, CardState.EDIT)"
+                (onCancelReady)="cancelMenuItemReady($event)"></app-menu-item-card>
+
+            <app-edit-card 
+                *ngSwitchCase="CardState.EDIT" 
+                [editedMenuItem]="getMenuItemContext(nutientCategory)!.menuItemEntry.menuItem"
+                (onEditMenuItem)="handleEditMenuItem($event)"></app-edit-card>
+
+            <app-empty-card 
+                *ngSwitchDefault 
+                [nutrientCategory]="nutientCategory" 
+                (click)="triggerMenuItemPicker(nutientCategory)"></app-empty-card>
         </ng-container>
-        <ng-template #emptyCardContainer>
-            <app-empty-card [nutrientCategory]="nutientCategory" (click)="triggerAddMenuItemEvent(nutientCategory)"></app-empty-card>
-        </ng-template>
     </ng-container>
 </div>

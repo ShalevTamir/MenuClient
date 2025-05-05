@@ -1,6 +1,6 @@
-import { MenuItem } from "../ros/menu-item.interface";
+import { MenuItemEntry } from "../ros/menu-item/menu-item-entry.interface";
 
 export interface UpdateDailyMealPlanDto {
     date: string;
-    menuItemToAdd: MenuItem;
+    editedEntry: MenuItemEntry;
 }

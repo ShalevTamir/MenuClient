@@ -1,4 +1,4 @@
-import { NutrientCategory } from "../enums/nutrient-category.enum";
+import { NutrientCategory } from "../../nutrient-category/nutrient-category.enum";
 
 export interface MenuItem {
     _id: string;

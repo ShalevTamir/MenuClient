@@ -1,0 +1,16 @@
+@use 'global/variables.scss' as *;
+
+@mixin icon-container {
+    background-color: $primary-color;    
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    padding: 2px;
+    border-radius: 20%;        
+}
+
+@mixin icon-size($size) {
+    font-size: $size;
+    width: $size;
+    height: $size;
+}

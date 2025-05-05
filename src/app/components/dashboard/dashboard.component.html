@@ -3,7 +3,13 @@
 </div>
 
 <div class="meal-plans-container" [class.hide]="isLoading">
-    <app-daily-plan *ngFor="let day of daysOfTheWeek; let dayIndex = index" [readableDayString]="day" [dayIndex]="dayIndex" (onTriggerAddMenuItem)="triggerAddMenuItem($event)"></app-daily-plan>
+    <app-daily-plan 
+        #dailyPlan
+        *ngFor="let day of daysOfTheWeek; let dayIndex = index"
+        [readableDayString]="day"
+        [dayIndex]="dayIndex"
+        (onTriggerMenuItemPicker)="openMenuItemPicker($event)">
+    </app-daily-plan>
 </div>  
 
 <app-menu-item-picker 
